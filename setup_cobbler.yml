@@ -2,9 +2,46 @@
 - hosts: localhost
 
   tasks:
-  - name: Install cobbler
+  - name: Install cobbler and related packages
     ansible.builtin.package:
       name:
       - cobbler
       - cobbler-web
+      - pykickstart
+      - httpd
+      - rsync
+      - dhcp
+      - xinetd
       state: present
+
+  - name: Get cobbler loaders
+    ansible.builtin.command: cobbler get-loaders
+
+  - name: Copy config files
+    ansible.builtin.copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      owner: "{{ item.owner }}"
+      group: "{{ item.group }}"
+      mode: "{{ item.mode }}"
+    with_items:
+      - { src: 'etc/cobbler/settings', dest: '/etc/cobbler/settings', owner: 'root', group: 'root', mode: '0644' }
+      - { src: 'etc/cobbler/dhcp.template', dest: '/etc/cobbler/dhcp.template', owner: 'root', group: 'root', mode: '0644' }
+      - { src: 'etc/cobbler/pxe/rhel79.ks', dest: '/etc/cobbler/pxe/rhel79.ks', owner: 'root', group: 'root', mode: '0644' }
+    notify: Sync cobbler
+
+  - name: Start cobbler and related services
+    ansible.builtin.systemd:
+      name: "{{ item }}"
+      state: started
+      enabled: yes
+    with_items:
+      - httpd
+      - rsyncd
+      - dhcpd
+      - xinetd
+      - cobblerd
+
+  handlers:
+    - name: Sync cobbler
+      ansible.builtin.command: cobbler sync
