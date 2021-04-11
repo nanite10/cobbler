@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+
+  tasks:
+  - name: Install cobbler
+    ansible.builtin.package:
+      name:
+      - cobbler
+      - cobbler-web
+      state: present
