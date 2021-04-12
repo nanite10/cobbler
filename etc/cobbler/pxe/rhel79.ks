@@ -47,7 +47,19 @@ raid /boot/efi --device=boot_efi --fstype="efi" --level=RAID1 --fsoptions="umask
 @^minimal
 @core
 chrony
-
+git
+vim
+ansible
+tmux
+wget
+net-tools
+cifs-utils
+nfs-utils
+bind-utils
+dkms
+kernel-devel
+kernel-headers
+gdisk
 %end
 
 %addon com_redhat_kdump --disable --reserve-mb='auto'
