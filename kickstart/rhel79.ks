@@ -2,13 +2,9 @@
 # System authorization information
 install
 auth --enableshadow --passalgo=sha512
-## Use CDROM installation media
-#cdrom
-## Use graphical install
-#graphical
-url --url http://10.0.0.8/cobbler/ks_mirror/rhel-server-7.9-x86_64-dvd-x86_64/
-# Run the Setup Agent on first boot
-firstboot --enable
+url --url http://192.168.1.94/cobbler/ks_mirror/rhel-server-7.9-x86_64-dvd-x86_64/
+#url --url=$tree
+firstboot --disable
 ignoredisk --only-use=sda,sdb
 # Keyboard layouts
 keyboard --vckeymap=us --xlayouts='us'
@@ -16,7 +12,7 @@ keyboard --vckeymap=us --xlayouts='us'
 lang en_US.UTF-8
 
 # Network information
-network --onboot no --bootproto=dhcp --device=enp0s3 --ipv6=auto --activate
+network --onboot no --bootproto=dhcp --device=eth0 --ipv6=auto --activate
 network  --hostname=pxeclient
 
 repo --name="Server-HighAvailability" --baseurl=file:///run/install/repo/addons/HighAvailability
@@ -28,10 +24,14 @@ services --enabled="chronyd"
 # System timezone
 timezone America/New_York --isUtc
 user --groups=wheel --name=andrew --password=$6$w0NJ4m.SEYyr9EXc$lfCSoHXKw5EA3GsiggvzFEUO4OUbAI.Iz/zrKEFmagOnZlTpgWsAaxkuTNNnJS9LYBu8TnlH3KAzjhX74OY4X0 --iscrypted --gecos="andrew"
+text
+firewall --disable
+selinux --disable
 # System bootloader configuration
 bootloader --location=mbr --boot-drive=sdb
 # Partition clearing information
-clearpart --none --initlabel
+clearpart --all --initlabel
+zerombr
 # Disk partitioning information
 part raid.713 --fstype="mdmember" --ondisk=sdb --size=18940
 part raid.475 --fstype="mdmember" --ondisk=sda --size=513

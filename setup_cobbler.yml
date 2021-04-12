@@ -28,6 +28,7 @@
       - { src: 'etc/cobbler/settings', dest: '/etc/cobbler/settings', owner: 'root', group: 'root', mode: '0644' }
       - { src: 'etc/cobbler/dhcp.template', dest: '/etc/cobbler/dhcp.template', owner: 'root', group: 'root', mode: '0644' }
       - { src: 'etc/cobbler/pxe/rhel79.ks', dest: '/etc/cobbler/pxe/rhel79.ks', owner: 'root', group: 'root', mode: '0644' }
+      - { src: 'etc/cobbler/pxe/rhel79.ks', dest: '/var/lib/cobbler/kickstarts/rhel79.ks', owner: 'root', group: 'root', mode: '0644' }
     notify: Sync cobbler
 
   - name: Start cobbler and related services
