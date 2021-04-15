@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+
+  tasks:
+  - name: Install packages dependent upon cobbler build
+    ansible.builtin.package:
+      name:
+        - python3
+        - python3-sphinx
+        - python3-coverage
+        - python3-simplejson
+        - python3-schema
+        - python3-django
+      state: present
