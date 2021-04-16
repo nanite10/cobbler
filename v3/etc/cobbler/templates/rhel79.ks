@@ -6,7 +6,7 @@ auth --enableshadow --passalgo=sha512
 #cdrom
 ## Use graphical install
 #graphical
-url --url http://192.168.1.94/cobbler/ks_mirror/rhel79-x86_64/
+url --url http://192.168.1.94/cobbler/distro_mirror/rhel79-x86_64/
 # Run the Setup Agent on first boot
 firstboot --enable
 ignoredisk --only-use=sda,sdb
